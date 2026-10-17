@@ -2,7 +2,7 @@ import api from "./api.js";
 
 export const getNotifications = async()=>{
     try {
-        const response = await api.get('/notifications/get');
+        const response = await api.get('/notifications/getNotification');
         return response.data;
     } catch (err) {
         console.log("error in getting notifications",err);
@@ -12,7 +12,7 @@ export const getNotifications = async()=>{
 
 export const deleteNotification = async(id)=>{
     try {
-        const response = await api.delete(`/notifications/delete/:${id}`);
+        const response = await api.delete(`/notifications/delete/${id}`);
         return response.data;
     } catch (err) {
         console.log("error in deleting notifications",err);
@@ -31,8 +31,9 @@ export const deleteAll = async()=>{
 }
 
 export const createNotification = async(payload)=>{
-    try {
-        const response = await api.create('/notifications/create',payload);
+    try {   
+        const response = await api.post('/notifications/create',payload);
+        console.log("resposne from notificaton service",response)
         return response.data;
     } catch (err) {
         console.log("error in creating the notification",err);
@@ -42,7 +43,7 @@ export const createNotification = async(payload)=>{
 
 export const readNotification = async(id)=>{
     try {
-        const response = await api.patch(`/notifications/read/:${id}`);
+        const response = await api.patch(`/notifications/read/${id}`);
         return response.data;
     } catch (err) {
         console.log("error in toggling the read function",err);
