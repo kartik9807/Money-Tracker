@@ -22,3 +22,27 @@ export const primaryBtn =
 export const ghostBtn =
     "flex cursor-pointer items-center gap-2 rounded-xl border border-[#cfd9d3] bg-white px-5 py-2.5 text-sm font-semibold text-[#14201c] transition-all duration-200 hover:border-[#0f3d33] hover:bg-[#eaf2ee] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 " +
     focusRing;
+
+export const fullDate = (value)=>{
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())? "": date.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+};
+
+export const timeAgo = (value)=>{
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+
+    const seconds = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
+    if (seconds < 45) return "just now";
+
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${Math.max(1, minutes)} min ago`;
+
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hr ago`;
+
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days} ${days === 1 ? "day" : "days"} ago`;
+
+    return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}

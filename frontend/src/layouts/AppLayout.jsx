@@ -4,11 +4,12 @@ import Topbar from "../components/layout/Topbar.jsx";
 import { toast } from "react-toastify";
 import { toastConfig } from "../utils/toastConfig.jsx";
 import {useAuth} from "../hooks/useAuth.jsx";
+import { useNotification } from "../hooks/useNotification.jsx";
 import {useNavigate} from "react-router-dom";
 
 const AppLayout = () => {
     const navigate = useNavigate();
-    const {LogoutDevice,LogoutAll} = useAuth();
+    const {LogoutDevice,LogoutAll,user} = useAuth();
     const onLogoutThisDevice = async ()=>{
         try {
             const response = await LogoutDevice();
@@ -36,13 +37,8 @@ const AppLayout = () => {
             toast.error("Error in logging out from all devices",toastConfig);
         }
     }
-
-    const onNotificationsClick = ()=>{
-
-    }
-
-
-    const {user} = useAuth();
+    const {notifications,deleteNoti,deleteAllNotification,readNoti,getNotifcation} = useNotification();
+    console.log("notification",notifications)
     return (
         <>
         
@@ -50,7 +46,7 @@ const AppLayout = () => {
             <div className="flex min-h-screen">
                 <Sidebar onLogoutThisDevice={onLogoutThisDevice} onLogoutAllDevices={onLogoutAllDevices} />
                 <div className="flex-1">
-                    <Topbar user={user} onNotificationsClick={onNotificationsClick} />
+                    <Topbar user={user} onNotificationsClick={getNotifcation} notifications={notifications} onDelete={deleteNoti} onDeleteAll={deleteAllNotification} onMarkRead={readNoti} />
                     <main className="p-6">
                         <Outlet />
                     </main>
