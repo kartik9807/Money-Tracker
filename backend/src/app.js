@@ -25,14 +25,14 @@ app.get('/',(_,res)=>{
 
 // importing routes
 import userRouter from "../src/routes/user.route.js"
-import notifcationRouter from "../src/routes/notification.route.js"
+import notificationRouter from "../src/routes/notification.route.js"
 
 //? custom error middleware 
 import { errorHandler } from "./middlewares/error.middleware.js"
 
 // declaring routes
 app.use('/api/v1/users',userRouter);
-app.use('/api/v1/notifications',notifcationRouter)
+app.use('/api/v1/notifications',notificationRouter)
 
 app.use(errorHandler)
 export default app
