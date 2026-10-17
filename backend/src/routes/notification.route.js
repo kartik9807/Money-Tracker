@@ -8,6 +8,6 @@ router.route('/create').post(isLogedIn,createNotification);
 router.route('/delete/:id').delete(isLogedIn,deleteNotification);
 router.route('/deleteAll').delete(isLogedIn,deleteAllNotification)
 router.route('/read/:id').patch(isLogedIn,readNotification);
-router.route('/get').get(isLogedIn,getNotifications);
+router.route('/getNotification').get(isLogedIn,getNotifications);
 
 export default router
