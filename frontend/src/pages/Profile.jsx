@@ -1,4 +1,3 @@
-// export default Profile;
 import { useCallback, useEffect, useState } from "react";
 import { useNotification } from "../hooks/useNotification.jsx";
 import {
@@ -29,10 +28,6 @@ import { focusRing, primaryBtn, ghostBtn } from "../utils/styleClass.jsx";
 
 import { editUser, changePassword } from "../services/authService.js";
 
-// ---------------------------------------------------------
-// Password strength helper
-// ---------------------------------------------------------
-
 const strengthLabels = ["Too weak", "Weak", "Fair", "Good", "Strong"];
 
 const strengthColors = ["#b42318", "#b42318", "#c9a227", "#0f3d33", "#0f3d33"];
@@ -56,10 +51,6 @@ const getStrength = (pw) => {
 
     return score;
 };
-
-// ---------------------------------------------------------
-// Reusable TextField
-// ---------------------------------------------------------
 
 const TextField = ({
     id,
@@ -132,16 +123,9 @@ const TextField = ({
     </div>
 );
 
-// ---------------------------------------------------------
-// Profile
-// ---------------------------------------------------------
-
 const Profile = () => {
     const { user } = useAuth();
     const {addNotifications} = useNotification()
-    // -----------------------------------------------------
-    // Profile edit state
-    // -----------------------------------------------------
 
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -151,19 +135,11 @@ const Profile = () => {
         username: "",
     });
 
-    // -----------------------------------------------------
-    // Avatar state
-    // -----------------------------------------------------
-
     // Actual File object sent to backend
     const [avatarFile, setAvatarFile] = useState(null);
 
     // URL used only for preview
     const [avatarPreview, setAvatarPreview] = useState("");
-
-    // -----------------------------------------------------
-    // Password state
-    // -----------------------------------------------------
 
     const [isChangingPassword, setIsChangingPassword] = useState(false);
 
@@ -182,16 +158,8 @@ const Profile = () => {
 
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    // -----------------------------------------------------
-    // Other UI state
-    // -----------------------------------------------------
-
     const [copied, setCopied] = useState(false);
     const [touched, setTouched] = useState({});
-
-    // -----------------------------------------------------
-    // Initialize profile data from AuthContext
-    // -----------------------------------------------------
 
     useEffect(() => {
         if (user) {
@@ -204,11 +172,6 @@ const Profile = () => {
             setAvatarFile(null);
         }
     }, [user]);
-
-    // -----------------------------------------------------
-    // Clean up temporary avatar URLs
-    // -----------------------------------------------------
-
     useEffect(() => {
         return () => {
             if (avatarPreview?.startsWith("blob:")) {
@@ -216,10 +179,6 @@ const Profile = () => {
             }
         };
     }, [avatarPreview]);
-
-    // -----------------------------------------------------
-    // Handle normal profile fields
-    // -----------------------------------------------------
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -238,10 +197,6 @@ const Profile = () => {
             [name]: true,
         }));
     };
-
-    // -----------------------------------------------------
-    // Avatar change
-    // -----------------------------------------------------
 
     const handleAvatarChange = (e) => {
         const file = e.target.files?.[0];
@@ -274,27 +229,15 @@ const Profile = () => {
         setAvatarPreview(previewUrl);
     };
 
-    // -----------------------------------------------------
-    // Undo avatar
-    // -----------------------------------------------------
-
     const handleUndoAvatar = () => {
         setAvatarFile(null);
 
         setAvatarPreview(user?.avatar || "");
     };
 
-    // -----------------------------------------------------
-    // Enter profile edit mode
-    // -----------------------------------------------------
-
     const handleEdit = () => {
         setIsEditing(true);
     };
-
-    // -----------------------------------------------------
-    // Cancel profile editing
-    // -----------------------------------------------------
 
     const handleCancel = useCallback(() => {
         setIsEditing(false);
@@ -310,10 +253,6 @@ const Profile = () => {
 
         setAvatarPreview(user?.avatar || "");
     }, [user]);
-
-    // -----------------------------------------------------
-    // Escape key
-    // -----------------------------------------------------
 
     useEffect(() => {
         if (!isEditing) return;
@@ -331,10 +270,6 @@ const Profile = () => {
         };
     }, [isEditing, isSaving, handleCancel]);
 
-    // -----------------------------------------------------
-    // Copy user ID
-    // -----------------------------------------------------
-
     const handleCopyId = async () => {
         try {
             await navigator.clipboard.writeText(user._id);
@@ -346,10 +281,6 @@ const Profile = () => {
             toast.error("Could not copy the ID", toastConfig);
         }
     };
-
-    // -----------------------------------------------------
-    // Profile validation
-    // -----------------------------------------------------
 
     const errors = {};
 
@@ -366,20 +297,11 @@ const Profile = () => {
     }
 
     const showError = (name) => (touched[name] ? errors[name] : undefined);
-
-    // -----------------------------------------------------
-    // Check whether profile has changes
-    // -----------------------------------------------------
-
     const hasChanges =
         !!user &&
         (formData.fullname !== (user.fullname || "") ||
             formData.username !== (user.username || "") ||
             avatarFile !== null);
-
-    // -----------------------------------------------------
-    // Update profile
-    // -----------------------------------------------------
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -445,10 +367,6 @@ const Profile = () => {
         }
     };
 
-    // -----------------------------------------------------
-    // Password field handler
-    // -----------------------------------------------------
-
     const handlePasswordChange = (e) => {
         const { name, value } = e.target;
 
@@ -457,10 +375,6 @@ const Profile = () => {
             [name]: value,
         }));
     };
-
-    // -----------------------------------------------------
-    // Change password
-    // -----------------------------------------------------
 
     const handleChangePassword = async (e) => {
         e.preventDefault();
@@ -536,10 +450,6 @@ const Profile = () => {
         }
     };
 
-    // -----------------------------------------------------
-    // Cancel password change
-    // -----------------------------------------------------
-
     const handleCancelPasswordChange = () => {
         setIsChangingPassword(false);
 
@@ -554,23 +464,11 @@ const Profile = () => {
         setShowConfirmPassword(false);
     };
 
-    // -----------------------------------------------------
-    // No user
-    // -----------------------------------------------------
-
     if (!user) {
         return null;
     }
 
-    // -----------------------------------------------------
-    // Password strength
-    // -----------------------------------------------------
-
     const strength = getStrength(passwordForm.newPassword);
-
-    // -----------------------------------------------------
-    // Member since
-    // -----------------------------------------------------
 
     const memberSince = user.createdAt
         ? new Date(user.createdAt).toLocaleDateString("en-IN", {
@@ -579,10 +477,6 @@ const Profile = () => {
               year: "numeric",
           })
         : null;
-
-    // -----------------------------------------------------
-    // UI
-    // -----------------------------------------------------
 
     return (
         <div className="min-h-[calc(100vh-120px)] font-['Figtree',system-ui,sans-serif] text-[#14201c]">
@@ -601,10 +495,6 @@ const Profile = () => {
                     }
                 `}
             </style>
-
-            {/* =====================================================
-                HEADER
-            ====================================================== */}
 
             <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
@@ -674,10 +564,6 @@ const Profile = () => {
                 )}
             </div>
 
-            {/* =====================================================
-                MAIN CARD
-            ====================================================== */}
-
             <div
                 className="
                     overflow-hidden
@@ -690,9 +576,6 @@ const Profile = () => {
                     animate-[pf-rise_0.5s_ease-out_both]
                 "
             >
-                {/* =================================================
-                    COVER
-                ================================================== */}
 
                 <div className="relative h-36 overflow-hidden bg-[#0f3d33] bg-[image:repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,rgba(255,255,255,0.08)_31px,rgba(255,255,255,0.08)_32px)]">
                     <div className="absolute -right-12 -top-20 h-56 w-56 rounded-full bg-[#c9a227]/25" />
@@ -702,17 +585,10 @@ const Profile = () => {
                     <div className="absolute bottom-0 left-0 h-1 w-full bg-[#c9a227]" />
                 </div>
 
-                {/* =================================================
-                    PROFILE CONTENT
-                ================================================== */}
 
                 <div className="px-6 pb-8 sm:px-8">
-                    {/* =================================================
-                        IDENTITY ROW
-                    ================================================== */}
 
                     <div className="-mt-16 mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
-                        {/* Avatar */}
 
                         <div className="relative w-fit">
                             <label
@@ -737,8 +613,6 @@ const Profile = () => {
                                             ?.toUpperCase() || "U"}
                                     </span>
                                 )}
-
-                                {/* Avatar hover overlay */}
 
                                 {isEditing && (
                                     <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-[#0f3d33]/60 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
@@ -809,10 +683,6 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    {/* =================================================
-                        PROFILE FORM
-                    ================================================== */}
-
                     <form id="profile-form" onSubmit={handleSubmit} noValidate>
                         <div className="grid gap-6 md:grid-cols-2">
                             {/* Full Name */}
@@ -875,10 +745,6 @@ const Profile = () => {
                             />
                         </div>
                     </form>
-
-                    {/* =================================================
-                        CHANGE PASSWORD
-                    ================================================== */}
 
                     <div className="mt-10 border-t border-[#e3eae6] pt-6">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

@@ -52,6 +52,5 @@ export const getNotifications = asyncHandler(async(req,res)=>{
     if(!notifications){
         throw new ApiError(400,"Error in fetching notifications");
     }
-    console.log("notification from sever",notifications)
     return res.status(200).json(new ApiResponse(200,notifications,"Notifications fetched successfully"));
 })

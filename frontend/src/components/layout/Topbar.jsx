@@ -33,7 +33,7 @@ const capitalize = (s = "") => s.charAt(0).toUpperCase() + s.slice(1);
 
 const Topbar = ({
   user,
-  notifications = [], // [{ _id, category, title, message, read, createdAt }]
+  notifications = [], //* [{ _id, category, title, message, read, createdAt }]
   onNotificationsClick = () => {},//* called each time the panel opens 
   onMarkRead = async () => {}, //* (id) => PATCH /read/:id,
   onDelete = async () => {}, //* (id) => DELETE /delete/:id,
