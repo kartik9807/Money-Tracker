@@ -201,12 +201,10 @@ export const editUser = asyncHandler(async(req,res)=>{
         avatar = "undefined";
     }
     const updateFields = {
-        fullname : (fullname !== "undefined")?fullname : req.user.fullname,
-        username : (username !== "undefined")?username : req.user.username,
         avatar: (avatar !== "undefined")?avatar.url : req.user.avatar
     }
     console.log("updateFields",updateFields)
-    await userModel.findByIdAndUpdate(req.user._id,{username:updateFields.username,fullname:updateFields.fullname,avatar:updateFields.avatar},{new:true});
+    await userModel.findByIdAndUpdate(req.user._id,{username,fullname,avatar:updateFields.avatar},{new:true});
     
     return res.status(200).json(new ApiResponse(200,"Updated the fields"));
 })
