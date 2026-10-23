@@ -23,7 +23,7 @@ export const NotificationProvider = ({children})=>{
                 setNotifications(response.data);
             }
         } catch (err) {
-                setNotifications([])
+            setNotifications([])
         }
     }
 

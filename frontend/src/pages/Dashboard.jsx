@@ -31,6 +31,7 @@ import {
 import { useAuth } from "../hooks/useAuth.jsx";
 import { useAccount } from "../hooks/useAccount.jsx";
 import { useNotification } from "../hooks/useNotification.jsx";
+import { useTransaction } from "../hooks/useTransaction.jsx";
 
 const currency = (amount) =>
     new Intl.NumberFormat("en-IN", {
@@ -242,7 +243,7 @@ const SummaryCard = ({
                 <>
                     <div className="pointer-events-none absolute -right-8 -top-12 h-36 w-36 rounded-full bg-[#c9a227]/20" />
                     <div className="pointer-events-none absolute -bottom-16 right-14 h-28 w-28 rounded-full bg-white/5" />
-                    <div className="pointer-events-none absolute inset-0 bg-[image:repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,rgba(255,255,255,0.05)_31px,rgba(255,255,255,0.05)_32px)]" />
+                    <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_31px,rgba(255,255,255,0.05)_31px,rgba(255,255,255,0.05)_32px)]" />
                 </>
             )}
 
@@ -283,6 +284,7 @@ const SummaryCard = ({
 
 const Dashboard = () => {
     const { user } = useAuth();
+    const {transactions:all_transactions} = useTransaction();
     const { Accounts,addAccount,editAccount,removeAccount } = useAccount();
     const { addNotifications } = useNotification();
     const navigate = useNavigate();
@@ -295,7 +297,7 @@ const Dashboard = () => {
     );
 
     // TODO: replace with your transactions hook
-    const transactions = DEMO_TRANSACTIONS;
+    const transactions = all_transactions;
 
     const [period, setPeriod] = useState("month");
     const [txFilter, setTxFilter] = useState("all");
@@ -1044,7 +1046,7 @@ const Dashboard = () => {
 
                             return (
                                 <div
-                                    key={transaction.id}
+                                    key={transaction._id}
                                     className="group flex items-center gap-3 px-5 py-4 transition-colors duration-200 hover:bg-[#fafcfb]"
                                 >
                                     <span
