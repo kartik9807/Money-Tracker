@@ -8,6 +8,5 @@ export const errorHandler = (err,req,res,next)=>{
         success:false,
         data:null,
         errors
-
     })
 }

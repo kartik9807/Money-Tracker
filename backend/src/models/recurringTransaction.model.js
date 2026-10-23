@@ -9,7 +9,9 @@ const recurringTransactionSchema = new mongoose.Schema({
     accountId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Account",
-        required: true,
+        required: function(){
+            return this.paymentMethod !== "Cash"
+        },
     },
     categoryId: {
         type: mongoose.Schema.Types.ObjectId,

@@ -7,7 +7,7 @@ const app = express();
 
 //? middlewares
 app.use(cors({
-    origin:"http://localhost:5173" ,
+    origin:process.env.FRONTEND_URL ,
     credentials:true
 }))
 app.use(bodyParser.json())
@@ -27,6 +27,7 @@ app.get('/',(_,res)=>{
 import userRouter from "../src/routes/user.route.js"
 import notificationRouter from "../src/routes/notification.route.js"
 import accountRouter from "../src/routes/account.route.js"
+import transactionRouter from "../src/routes/transaction.route.js"
 
 //? custom error middleware 
 import { errorHandler } from "./middlewares/error.middleware.js"
@@ -35,6 +36,7 @@ import { errorHandler } from "./middlewares/error.middleware.js"
 app.use('/api/v1/users',userRouter);
 app.use('/api/v1/notifications',notificationRouter)
 app.use('/api/v1/account',accountRouter)
+app.use('/api/v1/transactions',transactionRouter)
 
 app.use(errorHandler)
 export default app

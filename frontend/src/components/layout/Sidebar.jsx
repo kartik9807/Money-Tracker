@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import {
     LayoutDashboard,
@@ -39,7 +40,6 @@ const Tooltip = ({ show, children }) =>
     ) : null;
 
 const Sidebar = ({
-    onAddTransaction = () => {},
     onLogoutThisDevice,
     onLogoutAllDevices = () => {},
 }) => {
@@ -53,7 +53,7 @@ const Sidebar = ({
     const [menuOpen, setMenuOpen] = useState(false);
     const footerRef = useRef(null);
     const logoutBtnRef = useRef(null);
-
+    const navigate = useNavigate()
     useEffect(() => {
         try {
             localStorage.setItem("sidebar-collapsed", String(collapsed));
@@ -133,7 +133,7 @@ const Sidebar = ({
             <div className="px-3 pb-4">
                 <button
                     type="button"
-                    onClick={onAddTransaction}
+                    onClick={() => navigate("/transactions")}
                     className={
                         "group relative flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#0f3d33] py-3 font-semibold text-white shadow-[0_8px_18px_-8px_rgba(15,61,51,0.8)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0b2e26] active:translate-y-0 active:scale-95 " +
                         focusRing

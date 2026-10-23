@@ -9,7 +9,10 @@ const transactionSchema = new mongoose.Schema({
     accountId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Account",
-        required:true,
+        required:function(){
+            return this.paymentMethod !== "Cash";
+        },
+        
     },
     categoryId:{
         type:mongoose.Schema.Types.ObjectId,
@@ -43,7 +46,7 @@ const transactionSchema = new mongoose.Schema({
     },
     recurringTransactionId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"recurringTransaction",
+        ref:"RecurringTransaction",
     }
 },{timestamps:true})
 
